@@ -79,12 +79,12 @@ exports.deleteBillsById = async ( req, res) =>{
             content: ""
         });
 
-    } catch ( Error ) {
+    } catch (error) {
         // Nếu ko thành công -> 400
         return res.status(400).json({
             success: false,
             message: "Exception",
-            content: Error
+            content: error
         });
     }
 }
