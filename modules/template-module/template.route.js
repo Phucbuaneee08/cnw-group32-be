@@ -4,4 +4,9 @@ const SampleController = require('./template.controller');
 
 router.get("/", SampleController.get);
 
+router.post("/", SampleController.create);
+router.get("/:id", SampleController.show);
+router.patch("/:id", SampleController.edit);
+router.delete("/:id", SampleController.delete);
+
 module.exports = router;
