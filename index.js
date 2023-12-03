@@ -1,13 +1,13 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
 const bodyParser = require("body-parser");
-var logger = require('morgan');
-var cors = require('cors');
+let logger = require('morgan');
+let cors = require('cors');
 
 require('dotenv').config();
 
-var app = express();
+let app = express();
 
 const corsOptions = {
     methods: ['GET', 'PUT', 'POST', 'DELETE'],
