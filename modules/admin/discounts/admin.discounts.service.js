@@ -14,9 +14,9 @@ exports.GetAllDiscounts = async () => {
     console.log(discounts)
     return discounts;
 }
-exports.GetAllDiscountsByAdminId =  (adminId) => {
+exports.GetAllDiscountsByAdminId = async (adminId) => {
     console.log(adminId);
-    const discounts = Discounts(db).find({adminId});
+    const discounts = await Discounts(db).find({adminId});
     console.log(discounts);
     return discounts;
 }
