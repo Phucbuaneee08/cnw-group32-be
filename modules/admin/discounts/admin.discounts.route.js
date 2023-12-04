@@ -1,4 +1,5 @@
 const express = require("express");
+const DiscountsController  = require("./admin.discounts.controller");
 const router = express.Router();
 
 router.post("/discounts/create", DiscountsController.CreateDiscount);
