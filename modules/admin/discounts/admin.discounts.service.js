@@ -14,3 +14,9 @@ exports.GetAllDiscounts = async () => {
     console.log(discounts)
     return discounts;
 }
+exports.GetAllDiscountsByAdminId =  (adminId) => {
+    console.log(adminId);
+    const discounts = Discounts(db).find({adminId});
+    console.log(discounts);
+    return discounts;
+}
