@@ -16,10 +16,7 @@ const UsersSchema = new Schema({
     role: {
         type: String,
         require:true,
-        enum: {
-            values:['admin', 'super_admin'],
-            message: '{VALUE} is not supported, just admin or super_admin'
-        }
+        enum: ['admin', 'super_admin', 'user']
     },
     email: {
         type: String,
