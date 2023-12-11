@@ -30,7 +30,7 @@ exports.createService = async (req, res) => {
     } catch (error) {
         return res.status(400).json({
             success: false,
-            message: Array.isArray(error) ? error : "Can create service",
+            message: Array.isArray(error) ? error : "Can't create service",
             content: error
         })
     }
