@@ -52,8 +52,9 @@ const HomestaysSchema = new Schema(
                 description: { // Mô tả chi tiết
                     type: String
                 },
-                userName: { // Tên của người đánh giá
-                    type: String
+                user: { // Tham chiếu đến người dùng
+                    type: Schema.Types.ObjectId,
+                    ref: 'Users'
                 },
                 createdAt: { // Ngày tạo đánh giá
                     type: Date

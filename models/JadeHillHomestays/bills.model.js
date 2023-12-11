@@ -19,6 +19,11 @@ const BillsSchema= new Schema({
             type: Number
         }
     },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref : 'Users',
+        required: false,
+    },
     customerTogether: [{ // thông tin người đi kèm
         name: {
             type: String
