@@ -55,7 +55,7 @@ exports.updateUserById = async (name, address, email, password, phone, status, g
 }
 
 exports.createUser = async (data) => {
-    const { email, password, name, address, phone, status, gender, identification, avatarUrl, dateAtWork, dateAtBirth } = data;
+    const { email, password, name, address, phone, gender, identification, avatarUrl, dateAtWork, dateAtBirth } = data;
 
     if (!email || !password) {
         return {
@@ -70,11 +70,11 @@ exports.createUser = async (data) => {
             email, password: await bcrypt.hash(password, 10)
         };
         createKey.role = "user";
+        createKey.status = 1;
 
         if (name) createKey.name = name;
         if (address) createKey.address = address;
         if (phone) createKey.phone = phone;
-        if (status) createKey.status = status;
         if (gender) createKey.gender = gender;
         if (identification) createKey.identification = identification;
         if (avatarUrl) createKey.avatarUrl = avatarUrl;
