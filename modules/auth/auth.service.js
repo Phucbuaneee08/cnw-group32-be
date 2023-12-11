@@ -34,10 +34,17 @@ exports.getByEmailAndRole = async (data) => {
     );
     return test;
 }
-// Lấy thông tin người dùng có _id giống như trong req
+
+exports.getUserByEmail = async (email) => {
+    const user = await Users(db).findOne({ email });
+
+    return user;
+};
+
+// Lấy thông tin người dùng dựa trên gmail
 exports.getById = async (data) => {
     return Users(db).findOne({
-        _id: data._id
+        email: data
     });
 }
 
