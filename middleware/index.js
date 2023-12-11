@@ -71,6 +71,8 @@ exports.authRole = async function ( req, res, next) {
                 email: req.body.email,
             });
 
+            
+
             //Nếu ko tồn tại, ko phải super admin hoặc admin
             if ( !user || user.status !== 1 ) {
                 if ( user.role === 'admin' || user.role === 'super_admin' ) {}
@@ -102,8 +104,8 @@ exports.authRole = async function ( req, res, next) {
     }
 }
 
-// Xác minh xem người dùng có vai trò user hay không
-exports.authUser = async function (req, res, next) {
+// Xác minh xem người dùng có vai trò super admin hay không
+exports.authSuperAdmin = async function (req, res, next) {
     if (!req.user) {
         try {
             // Truy vấn database để kiểm tra
@@ -112,7 +114,7 @@ exports.authUser = async function (req, res, next) {
             });
 
             // Nếu không tồn tại hoặc không phải user
-            if (!user || user.status !== 1 || user.role !== 'user') {
+            if (!user || user.status !== 1 || user.role !== 'super_admin') {
                 return res.status(401).json({
                     success: false,
                     message: "Invalid user credential",
@@ -138,6 +140,42 @@ exports.authUser = async function (req, res, next) {
     }
 }
 
+// Xác minh xem người dùng có vai trò user hay không
+exports.authUser = async function (req, res, next) {
+    if (!req.user) {
+        try {
+            // Truy vấn database để kiểm tra
+            let user = await Users(db).findOne({
+                email: req.body.email,
+            });
+
+            // Nếu không tồn tại hoặc không phải user
+            if (!user || user.status !== 1 || user.role !== 'user') {
+                return res.status(401).json({
+                    success: false,
+                    message: "Invalid user credential",
+                });
+            } else {
+                req.user = user;
+                next();
+            }
+        } catch (err) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid user credential",
+            });
+        }
+    } else {
+        if (req.user.status !== 1 || req.user.role !== 'user') {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid user credential",
+            });
+        } else {
+            next();
+        }
+    }
+}
 
 exports.uploadBackupFiles = () => {
     // 2. copy file được gửi lên vào backup/all/'version'/data
