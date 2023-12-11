@@ -70,10 +70,12 @@ exports.createBill = async ( data ) => {
     // đẩy bill vào homestays
     await Homestays(db).findByIdAndUpdate(data._id, { $push: {bills: _idBill}});
 
+    
     // Gửi email sau khi tao bill xong
     let customer = data.customer;
     let bill = await Bills(db).findById(_idBill);
     sendEmailWhenCreateBill(customer.name, customer.identification, customer.email, customer.phoneNumber, bill.checkinDate, bill.checkoutDate, bill.price, bill.customerTogether.length +1, homestay.name, homestay.district, homestay.province);
+    
 }
 
 exports.getAllBillsByUserId = async (userId) => {
@@ -82,6 +84,17 @@ exports.getAllBillsByUserId = async (userId) => {
         const bills = await Bills(db).find({ user: userId });
             
 
+        return bills;
+    } catch (error) {
+        throw error;
+    }
+};
+
+exports.getBillByBillId = async (billId) => {
+    try {
+        // Lấy tất cả bills của user
+        const bills = await Bills(db).findById(billId);
+            
         return bills;
     } catch (error) {
         throw error;

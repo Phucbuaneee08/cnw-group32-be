@@ -6,7 +6,7 @@ const {ObjectId} = require('mongodb');
 const bcrypt = require('bcrypt');
 
 //API chỉnh sửa thông tin User
-exports.updateUserById = async (id, name, address, email, password, phone, status, gender, age, identification, avatarUrl, dateAtWork, dateAtBirth) => {
+exports.updateUserById = async (name, address, email, password, phone, status, gender, age, identification, avatarUrl, dateAtWork, dateAtBirth) => {
     let setKey = {};
     if (name) {
         setKey = {...setKey, "name": name}
@@ -46,7 +46,7 @@ exports.updateUserById = async (id, name, address, email, password, phone, statu
     }
 
     await Users(db).update(
-        {_id: id},
+        {_id: req.user._id},
         {$set: setKey}
     )
 

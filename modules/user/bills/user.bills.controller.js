@@ -46,9 +46,6 @@ exports.createBills = async (req,res)=>{
             }
         }
 
-        // Thêm thuộc tính user là null
-        data.user = null;
-
         //Tạo bills với các trường đơn, bắt buộc phải điền hết các trường đơn
         await BillsService.createBill( data );
 
@@ -160,6 +157,26 @@ exports.getBillsByUserId = async (req, res) => {
             success: true,
             message: "Get all bills for user successfully",
             content: bills
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            content: error
+        });
+    }
+};
+
+exports.getBillByBillId = async (req, res) => {
+    try {
+
+        const bill = await BillsService.getBillByBillId(req.params.id);
+
+        return res.status(200).json({
+            success: true,
+            message: "Get bill for user successfully",
+            content: bill
         });
     } catch (error) {
         console.error(error);

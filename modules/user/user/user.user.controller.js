@@ -33,7 +33,6 @@ exports.updateUserById = async (req, res) => {
     try {
         //Lấy các thông tin để update cho Admin.
         const data = req.body;
-        const id = data.id;
         const name = data.name;
         const address = data.address;
         const email = data.email;
@@ -41,12 +40,13 @@ exports.updateUserById = async (req, res) => {
         const phone = data.phone;
         const status = data.status;
         const gender = data.gender;
+        const age = data.age;
         const identification = data.identification;
         const avatarUrl = data.avatarUrl;
         const dateAtWork = data.dateAtWork;
         const dateAtBirth = data.dateAtBirth;
 
-        let user = await UserService.updateUserById(id, name, address, email, password, phone, status, gender, identification, avatarUrl, dateAtWork, dateAtBirth);
+        let user = await UserService.updateUserById(name, address, email, password, phone, status, gender, age, identification, avatarUrl, dateAtWork, dateAtBirth);
         return res.status(200).json({
             success: true,
             content: user

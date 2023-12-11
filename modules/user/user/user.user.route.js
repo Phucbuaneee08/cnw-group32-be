@@ -5,10 +5,10 @@ const { authToken, authUser, authRole, authSuperAdmin } = require('../../../midd
 
 router.post("/create/user", UserController.createUser);
 
-router.put("/update/user", authUser, UserController.updateUserById);
-router.get("/get/user", authUser, UserController.getUser);
+router.put("/update/user",authToken, authUser, UserController.updateUserById);
+router.get("/get/user",authToken, authUser, UserController.getUser);
 
-router.delete("/delete/user/:id", authSuperAdmin, UserController.deleteUser);
-router.get("/get/users", authSuperAdmin, UserController.getUsers);
+router.delete("/delete/user/:id",authToken, authSuperAdmin, UserController.deleteUser);
+router.get("/get/users",authToken, authSuperAdmin, UserController.getUsers);
 
 module.exports = router;
