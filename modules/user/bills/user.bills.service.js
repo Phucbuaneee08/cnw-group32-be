@@ -28,6 +28,7 @@ exports.createBill = async ( data ) => {
         customer         : data.customer,
         customerTogether : data.customerTogether,
         servicesPerBill  : data.servicesPerBill,
+        user             : data.user, 
         price            : 0
     })
     .then( bill => { 
