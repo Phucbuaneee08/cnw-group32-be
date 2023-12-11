@@ -2,8 +2,10 @@
   "name": "nmcnpm-be",
   "version": "1.0.0",
   "scripts": {
-    "start": "node ./bin/www",
-    "start:dev": "cross-env NODE_ENV=dev nodemon ./bin/www "
+    "start": "node ./bin/www ",
+    "start:dev": "cross-env NODE_ENV=dev nodemon ./bin/www ",
+    "seedUsers": "node ./seed/UserSeed.js",
+    "seedHomestays": "node seed/HomestaysSeed-1.js seed/HomestaysSeed-2.js"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^2.1.0",
