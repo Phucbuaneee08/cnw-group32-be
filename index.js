@@ -25,11 +25,26 @@ app.use(cors(corsOptions));
 // user routers here
 const router = express.Router();
 
+// Trỏ tới auth
+router.use( "/auth", require("./modules/auth/auth.route"));
+
 // Trỏ tới router ở file information-homestays
 router.use( "/homestays", require("./modules/user/homestays/user.homestays.route"));
 
 // Trỏ tới router ở file booking-homestays
 router.use("/admins", require("./modules/admin/bills/admin.bills.route"));
+
+//Trỏ tới router ở file create-bills
+router.use('/users',require('./modules/user/bills/user.bill.route'));
+
+//Trỏ tới router ở file user/user
+router.use('/users',require('./modules/user/user/user.user.route'));
+
+//Trỏ tới router ở file super-admin/admin
+router.use('/super-admins', require('./modules/super-admin/admin/super-admin.admin.route'))
+
+// Trỏ tới route ở file super-admin/homestay
+router.use('/super-admins', require('./modules/super-admin/homestays/super-admin.homestays.route'));
 
 app.use(router);
 
