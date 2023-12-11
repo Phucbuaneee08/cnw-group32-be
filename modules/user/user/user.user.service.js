@@ -6,7 +6,7 @@ const {ObjectId} = require('mongodb');
 const bcrypt = require('bcrypt');
 
 //API chỉnh sửa thông tin User
-exports.updateUserById = async (id, name, address, email, password, phone, status, gender, identification, avatarUrl, dateAtWork, dateAtBirth) => {
+exports.updateUserById = async (id, name, address, email, password, phone, status, gender, age, identification, avatarUrl, dateAtWork, dateAtBirth) => {
     let setKey = {};
     if (name) {
         setKey = {...setKey, "name": name}
@@ -28,6 +28,9 @@ exports.updateUserById = async (id, name, address, email, password, phone, statu
     }
     if (gender) {
         setKey = {...setKey, "gender": gender}
+    }
+    if (age) {
+        setKey = {...setKey, "age": age}
     }
     if (identification) {
         setKey = {...setKey, "identification": identification}
@@ -51,53 +54,45 @@ exports.updateUserById = async (id, name, address, email, password, phone, statu
     return user;
 }
 
-exports.createUser = async (name, address, email, password, phone, status, gender, identification, avatarUrl, dateAtWork, dateAtBirth) => {
-    if (!name || !email || !password || !phone || !identification || !dateAtWork)
-        return 0;
-    let adminWithId = await Users(db).findOne(
-        {identification: identification}
-    )
-    if (adminWithId) return 1;
-    let createKey = {};
-    if (name) {
-        createKey = {...createKey, name: name}
+exports.createUser = async (data) => {
+    const { email, password, name, address, phone, status, gender, identification, avatarUrl, dateAtWork, dateAtBirth } = data;
+
+    if (!email || !password) {
+        return {
+            success: false,
+            message: "Email và password là bắt buộc để tạo user!",
+            content: null
+        };
     }
-    if (role) {
-        createKey = {...createKey, role: role}
+
+    try {
+        let createKey = {
+            email, password: await bcrypt.hash(password, 10)
+        };
+        createKey.role = "user";
+
+        if (name) createKey.name = name;
+        if (address) createKey.address = address;
+        if (phone) createKey.phone = phone;
+        if (status) createKey.status = status;
+        if (gender) createKey.gender = gender;
+        if (identification) createKey.identification = identification;
+        if (avatarUrl) createKey.avatarUrl = avatarUrl;
+        if (dateAtWork) createKey.dateAtWork = new Date(dateAtWork);
+        if (dateAtBirth) createKey.dateAtBirth = new Date(dateAtBirth);
+
+        let user = await Users(db).create(createKey);
+
+        return {
+            success: true,
+            content: user
+        };
+    } catch (error) {
+        throw error;
     }
-    if (address) {
-        createKey = {...createKey, address: address}
-    }
-    if (email) {
-        createKey = {...createKey, email: email}
-    }
-    if (password) {
-        createKey = {...createKey, password: await bcrypt.hash(password, 10)}
-    }
-    if (phone) {
-        createKey = {...createKey, phone: phone}
-    }
-    if (status) {
-        createKey = {...createKey, status: status}
-    }
-    if (gender) {
-        createKey = {...createKey, gender: gender}
-    }
-    if (identification) {
-        createKey = {...createKey, identification: identification}
-    }
-    if (avatarUrl) {
-        createKey = {...createKey, avatarUrl: avatarUrl}
-    }
-    if (dateAtWork) {
-        createKey = {...createKey, dateAtWork: new Date(dateAtWork)}
-    }
-    if (dateAtBirth) {
-        createKey = {...createKey, dateAtBirth: new Date(dateAtBirth)}
-    }
-    let user = await Users(db).create(createKey);
-    return user;
-}
+};
+
+
 
 // Lấy danh sách user
 exports.getUsers = async () => {

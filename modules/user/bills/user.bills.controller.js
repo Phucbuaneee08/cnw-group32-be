@@ -24,23 +24,26 @@ exports.createBills = async (req,res)=>{
             })
         }
         
-        //Kiểm tra xem _id services nhập có đúng không
-        for( let i = 0; i < data.servicesPerBill.length; i++ ){
+        
+        if (data.servicesPerBill){
+            
+            for( let i = 0; i < data.servicesPerBill.length; i++ ){
 
-            // Lấy về thông tin của services;
-            const services = await Services(db).findById({ _id : data.servicesPerBill[i].services  })
-            .then( services => {
-                return services;
-            })
-
-            if( services === null || typeof( services ) === undefined ){
-                res.status(400).json({
-                    success:false,
-                    message:"_id của services không đúng",
-                    content: ""
+                // Lấy về thông tin của services;
+                const services = await Services(db).findById({ _id : data.servicesPerBill[i].services  })
+                .then( services => {
+                    return services;
                 })
-            }
 
+                if( services === null || typeof( services ) === undefined ){
+                    res.status(400).json({
+                        success:false,
+                        message:"_id của services không đúng",
+                        content: ""
+                    })
+                }
+
+            }
         }
 
         // Thêm thuộc tính user là null
@@ -80,7 +83,7 @@ exports.createBillsAuthenticated = async (req,res)=>{
         try{
 
             //Lấy dữ liệu từ body
-            const data = req.body;
+            const data = req.body;   
     
             console.log(data._id);
             // Lấy thông tin homestays bằng _id
@@ -97,38 +100,33 @@ exports.createBillsAuthenticated = async (req,res)=>{
                     content: ""
                 })
             }
-            
+
             //Kiểm tra xem _id services nhập có đúng không
-            for( let i = 0; i < data.servicesPerBill.length; i++ ){
+            if (data.servicesPerBill){
+                for( let i = 0; i < data.servicesPerBill.length; i++ ){
     
-                // Lấy về thông tin của services;
-                const services = await Services(db).findById({ _id : data.servicesPerBill[i].services  })
-                .then( services => {
-                    return services;
-                })
-    
-                if( services === null || typeof( services ) === undefined ){
-                    res.status(400).json({
-                        success:false,
-                        message:"_id của services không đúng",
-                        content: ""
+                    // Lấy về thông tin của services;
+                    const services = await Services(db).findById({ _id : data.servicesPerBill[i].services  })
+                    .then( services => {
+                        return services;
                     })
+        
+                    if( services === null || typeof( services ) === undefined ){
+                        res.status(400).json({
+                            success:false,
+                            message:"_id của services không đúng",
+                            content: ""
+                        })
+                    }
+        
                 }
-    
             }
+            
 
             // Lấy dữ liệu người dùng từ tài khoản
-            const user = await Users(db).findById({ _id: req.user._id});
-            data.customer = {
-                name: user.name,
-                identification: user.identification,
-                email: user.email,
-                phoneNumber: user.phone,
-                age: user.age
-            };
+            data.customer = req.user;
             data.user = req.user._id;
-            
-    
+
             //Tạo bills với các trường đơn, bắt buộc phải điền hết các trường đơn
             await BillsService.createBill( data );
     
@@ -151,3 +149,24 @@ exports.createBillsAuthenticated = async (req,res)=>{
 
     
 }
+
+// Lấy tất cả bill dựa trên usedId
+exports.getBillsByUserId = async (req, res) => {
+    try {
+
+        const bills = await BillsService.getAllBillsByUserId(req.user._id);
+
+        return res.status(200).json({
+            success: true,
+            message: "Get all bills for user successfully",
+            content: bills
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            content: error
+        });
+    }
+};

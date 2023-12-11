@@ -76,3 +76,14 @@ exports.createBill = async ( data ) => {
     sendEmailWhenCreateBill(customer.name, customer.identification, customer.email, customer.phoneNumber, bill.checkinDate, bill.checkoutDate, bill.price, bill.customerTogether.length +1, homestay.name, homestay.district, homestay.province);
 }
 
+exports.getAllBillsByUserId = async (userId) => {
+    try {
+        // Lấy tất cả bills của user
+        const bills = await Bills(db).find({ user: userId });
+            
+
+        return bills;
+    } catch (error) {
+        throw error;
+    }
+};

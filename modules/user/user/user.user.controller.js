@@ -1,5 +1,33 @@
 const UserService = require('./user.user.service');
 const jwt = require("jsonwebtoken");
+
+exports.createUser = async (req, res) => {
+    try {
+        const data = req.body;
+        const user = await UserService.createUser(data);
+
+        if (user.success) {
+            return res.status(200).json({
+                success: true,
+                content: user.content
+            });
+        } else {
+            return res.status(400).json({
+                success: false,
+                content: null,
+                message: user.message
+            });
+        }
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            message: Array.isArray(error) ? error : "User id is not correct!",
+            content: error
+        });
+    }
+};
+
+
 //API update thông tin của User
 exports.updateUserById = async (req, res) => {
     try {
@@ -33,48 +61,13 @@ exports.updateUserById = async (req, res) => {
     }
 }
 
-exports.createUser = async (req, res) => {
-    try {
-        const data = req.body;
-        const name = data.name;
-        const address = data.address;
-        const email = data.email;
-        const password = data.password;
-        const phone = data.phone;
-        const status = data.status;
-        const gender = data.gender;
-        const identification = data.identification;
-        const avatarUrl = data.avatarUrl;
-        const dateArWork = data.dateAtWork;
-        const dateAtBirth = data.dateAtBirth;
-
-        let user = await UserService.createUser(name, address, email, password, phone, status, gender, identification, avatarUrl, dateArWork, dateAtBirth);
-        if (user === 0) {
-            return res.status(400).json({
-                success: false,
-                content: null,
-                message: "Không đủ dữ liệu để có thể tạo một user mới!"
-            })
-        } else {
-            if (user === 1) {
-                return res.status(400).json({
-                    success: false,
-                    content: null,
-                    message: "User này đã có sẵn!"
-                })
-            } else return res.status(200).json({
-                success: true,
-                content: user
-            })
-        }
-    } catch (error) {
-        return res.status(400).json({
-            success: false,
-            message: Array.isArray(error) ? error : "User id is not correct!",
-            content: error
-        });
-    }
+exports.getUser = async (req, res) => {
+    return res.status(200).json({
+        success: true,
+        user: req.user
+    })
 }
+
 
 exports.deleteUser = async (req, res ) => {
     const role = req.currentRole;
