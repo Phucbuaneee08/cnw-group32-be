@@ -66,10 +66,10 @@ const UsersSchema = new Schema({
         type: String,
         required: false
     }],
-    age: [{
-        type: String,
+    age: {
+        type: Number,
         required: false
-    }],
+    },
     homestays: [{ // Id định danh homestay, tham chiếu bảng homestays
         type: Schema.Types.ObjectId,
         ref: 'Homestays',
