@@ -7,7 +7,7 @@ const router = express.Router();
 // Chức năng đánh giá homestays
 router.get("/ranking", HomestaysController.getRankingHomestays);
 router.post("/rate/:id", HomestaysController.createRatingOfHomestay);
-
+router.get("/getUserRate/:id", HomestaysController.getRatesOfUser);
 
 // Chức năng trả lại toàn bộ thông tin hiện có về homestays
 router.get("/information/:id", HomestaysController.getHomestayById);

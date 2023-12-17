@@ -81,6 +81,10 @@ const UsersSchema = new Schema({
     admins: [{ // super_admin tham chiếu tới admins
         type: Schema.Types.ObjectId,
         ref: 'Users',
+    }],
+    rates: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Homestays',
     }]
 });
 
