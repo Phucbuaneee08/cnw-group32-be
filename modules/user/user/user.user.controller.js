@@ -27,6 +27,7 @@ exports.createUser = async (req, res) => {
     }
 };
 
+
 //API update thông tin của User
 exports.updateUserById = async (req, res) => {
     try {
