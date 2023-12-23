@@ -27,7 +27,6 @@ exports.createUser = async (req, res) => {
     }
 };
 
-
 //API update thông tin của User
 exports.updateUserById = async (req, res) => {
     try {
@@ -38,7 +37,6 @@ exports.updateUserById = async (req, res) => {
         const email = data.email;
         const password = data.password;
         const phone = data.phone;
-        const status = data.status;
         const gender = data.gender;
         const age = data.age;
         const identification = data.identification;
@@ -46,7 +44,7 @@ exports.updateUserById = async (req, res) => {
         const dateAtWork = data.dateAtWork;
         const dateAtBirth = data.dateAtBirth;
 
-        let user = await UserService.updateUserById(name, address, email, password, phone, status, gender, age, identification, avatarUrl, dateAtWork, dateAtBirth);
+        let user = await UserService.updateUserById(name, address, email, password, phone, gender, age, identification, avatarUrl, dateAtWork, dateAtBirth);
         return res.status(200).json({
             success: true,
             content: user
