@@ -38,6 +38,27 @@ exports.createRatingOfHomestay = async (req, res) => {
     }
 };
 
+exports.getRatesOfUser = async (req, res) => {
+  //   const id = req.params.id;
+  //   console.log(id);
+  try {
+    const id = req.params.id;
+    console.log(id);
+    let userRating = await HomestaysService.getUserRatings(id);
+    res.status(200).json({
+      success: true,
+      messages: ["get_success"],
+      content: userRating,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      messages: Array.isArray(error) ? error : ["get user rating failed"],
+      content: error,
+    });
+  }
+};
+
 // Lấy dữ liệu chi tiết về 1 homestay
 // API này chưa test hết các trường hợp lỗi trả về
 exports.getHomestayById = async (req, res) => {

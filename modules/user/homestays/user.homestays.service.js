@@ -66,8 +66,21 @@ exports.getRankingHomestays = async (quantity) => {
 exports.createRating = async (id, rate) => {
     const homestay = await Homestays(db).findByIdAndUpdate(id, {
         $push: {rates: rate}
-    }, {new: true})
+    }, {new: true});
+    await Users(db).findByIdAndUpdate(rate.user, {
+      $push: { rates: id },
+    }, { new: true });
     return homestay;
+}
+
+exports.getUserRatings = async (id) => {
+    const userRating = await Users(db).findById(id).populate("rates");
+    const rates = [].concat(
+        ...userRating.rates.map((homestay) => homestay.rates)
+    );
+    const filteredRates = rates.filter((rate) => rate.user.toString() === id);
+    console.log(filteredRates);
+    return filteredRates;
 }
 
 exports.getHomestayById = async (id) => {
