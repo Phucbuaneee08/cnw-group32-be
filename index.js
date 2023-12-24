@@ -34,6 +34,11 @@ router.use( "/homestays", require("./modules/user/homestays/user.homestays.route
 // Trỏ tới router ở file booking-homestays
 router.use("/admins", require("./modules/admin/bills/admin.bills.route"));
 
+router.use("/admins", require("./modules/admin/discounts/admin.discounts.route"));
+
+// Trỏ tới router ở file admin/service
+router.use("/services", require("./modules/admin/services/admin.services.route"));
+
 //Trỏ tới router ở file create-bills
 router.use('/users',require('./modules/user/bills/user.bill.route'));
 
